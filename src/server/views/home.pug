@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    div
+        p Chat Home
+        div
+            input#user-name(placeholder="Nombre")
+            button#send-name Actualizar Nombre
+        div
+            input#message(placeholder="Mensaje")
+            button#send-message Enviar
+            h3#messages-list 
+            h5#users-list
+            h6#messages-saved
