@@ -1,14 +1,20 @@
 extends layout
-
 block content
-    div
-        p Chat Home
+        div.rounded.bg-primary.text-white(style={width:'50%'}) 
+            .h1.text-center Chat Home
+        div(style={padding: '10px', width:'50%'})
+            input#user-name.form-control.is-invalid(placeholder="Nombre")
+            button#send-name.btn.btn-primary Actualizar Nombre
+        div(style={padding: '10px', width:'50%'})
+            input#message.form-control.is-invalid(placeholder="Mensaje")
+            button#send-message.btn.btn-primary Enviar
         div
-            input#user-name(placeholder="Nombre")
-            button#send-name Actualizar Nombre
-        div
-            input#message(placeholder="Mensaje")
-            button#send-message Enviar
-            h3#messages-list 
-            h5#users-list
-            h6#messages-saved
+            h4 Mensajes
+            div#messages-list 
+            h4 Usuarios
+            div#users-list
+            h4 Mensajes Guardados
+            div#messages-saved
+            h4 Usuarios recientes
+            div#active-users
+

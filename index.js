@@ -4,14 +4,11 @@ import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import socketio from 'socket.io'
 import socketHandler from './src/server/socketHandler'
+import connection from './modules/connection'
 
 dotenv.config();
-
 const APP=express();
-
 const SERVER =http.createServer(APP);
-
-
 
 APP.use (express.static('dist'));
 APP.set('views','./src/server/views');
@@ -20,11 +17,27 @@ APP.use(bodyParser.json());
 
 const io= socketio(SERVER);
 
-const activeUsers=[];
-const messagesList=[];
+let activeUsers=[];
+let messages=[];
+let current=[];
 
-io.set('transports', ['websocket','polling']); //le da prioridad por websocket para la comunicacion,si no se puede...por polling
-io.on('connection',socketHandler(io,activeUsers,messagesList)); //mientras tengamos coneccion haz esto , le pasamos la instancia io que creamos
+io.set('transports', ['websocket','polling']);
+
+
+
+connection.query('select * from messages', (err, results)=>{
+        messages = results.map((message)=>{
+            return {
+                userName: message.userName,
+                value: message.message,
+                currentDate: message.createdAt
+            }
+
+})
+io.on('connection', socketHandler(io,activeUsers,messages,connection,current));
+})
+
+
 
 APP.get('/',(req,res)=>{
     res.render('home');
